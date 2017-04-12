@@ -1,18 +1,57 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	background-color: #f0f0f0;
 	text-align: center;
+	margin: 0;
 }
 
 p {
-	margin: 10px
+	margin: 10px;
 }
 
-.board {
-	border-bottom: 1px solid #000;
-	padding: 40px;
+.hidden {
+	display: none;
+}
+
+.btn-delete {
+	width: 25px;
+	height: 25px;
+	margin-left: 50px;
+}
+
+.navigation {
+	background: #212121;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	max-width: 300px;
+	z-index: 100;
+	box-shadow: 1px 1px 5px #000;
+	overflow: hidden;
+}
+
+.board-navigation {
+	width: calc(100% - 25px);
+	max-width: 275px;	
+	height: 100vh;
 	position: relative;
 }
 
+.board-list {
+	height: calc(100vh - 130px);
+	overflow-y: auto;
+}
+
+.board-container {
+	width: calc(100% - 300px);
+	float: right;
+}
+	
 .create-board {
 	background: #000;
 	color: #f0f0f0;
@@ -31,8 +70,60 @@ p {
 	outline: none;
 }
 
-.hidden {
+.chevron {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	background: #000;
+	color: #f0f0f0;
+	width: 25px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 2%;
+	cursor: pointer;
+	z-index: 100;
+}
+
+.board-list {
+	list-style: none;
+}
+
+.board-list li {
+	color: #f0f0f0;
+	text-align: left;
+	font-size: 1.5em;
+	margin-right: 25px;
+	padding: 10px 10px 10px 40px;
+}
+
+.board-list li:hover,
+.board-list li:active,
+.board-list li.active,
+.board-list li:focus {
+	background: #4D4D4D;
+	cursor: pointer;
+}
+
+.board-list .btn-delete {
+	float: right;
+	margin: 0;
+}
+
+.board-list p {
+	display: inline-block;
+	max-width: 200px;
+	margin: 0;
+}
+
+.board {
 	display: none;
+	padding: 40px;
+	position: relative;
+}
+
+.board.active {
+	display: block;
 }
 
 .create-column {
@@ -64,12 +155,6 @@ p {
 	border-bottom: 1px solid #FF00D9;
 	margin-bottom: 20px;
 	position: relative;
-}
-
-.btn-delete {
-	width: 25px;
-	height: 25px;
-	margin-left: 50px;
 }
 
 .btn-delete-board {

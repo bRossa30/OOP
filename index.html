@@ -3,12 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Kanban</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
 </head>
 <body>
-	<button class="create-board">Dodaj tablicę</button>
+	<nav class="navigation">
+		<div class="board-navigation">
+			<button class="create-board">Dodaj tablicę</button>
+			
+			<ul class="board-list"></ul>
+		</div>
+		<i class="fa fa-chevron-right chevron"></i>
+		<i class="fa fa-chevron-left chevron"></i>
+	</nav>
+	<div class="board-container"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/scripts.js"></script>
