@@ -1,7 +1,8 @@
 $(function() {
 
 	var n = 0, //number of board
-		allBoards = new Array();
+		allBoards = new Array(), 
+		allBoardsLiElem = new Array();
 
 	function randomString() {
 		var chars = "0123456789abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ",
@@ -119,7 +120,7 @@ $(function() {
 			return $board;
 		};
 
-		allBoards.push(this.$element);
+		allBoards.push(this);
 		console.log(allBoards);
 	};
 
@@ -167,48 +168,59 @@ $(function() {
 			removeActiveClassLi(self.item);
 			removeActiveClassBoard(self.item);
 		});
+
+		allBoardsLiElem.push(this);
 	};
 
 	BoardListElem.prototype.removeListElem = function() {
-		var x = this.item;
-		//console.log(x);
+		var x = this.item,
+			boardPosition;
 		this.$element.remove();
-		allBoards[x-1].remove();
+		for (i=0 ; i<allBoards.length ; i++) {
+			if (allBoards[i].item == x) {
+				allBoards[i].$element.remove();
+				boardPosition = i;
+			};
+		};
+		allBoards.splice(boardPosition,1);
 		removeActiveClassLi(x);
 		removeActiveClassBoard(x);
 		$('.board-container').children(":first").addClass('active');
 		$('.board-list').children(":first").addClass('active');
-		console.log(allBoards);
 	};
 
-		//$('.board-container').children('[data-item=' + x + ']' ).remove();
-		/*$.each(allBoards, function(i, elem) {
-			//if (elem.item == x) {
-			//	$(this).remove();
-				console.log(elem["item"]);
-			//}
-		})*/
 	//class active switching
 	function removeActiveClassLi(x) {
-		$('.board-list').children('[data-li_item!=' + x + ']').removeClass('active');
+		for (i=0 ; i<allBoardsLiElem.length ; i++) {
+			if (allBoardsLiElem[i].item != x) {
+				allBoardsLiElem[i].$element.removeClass('active');
+			};
+		};
 	};
 
 	function removeActiveClassBoard(x) {
-		//$('.board-container').children('[data-item!=' + x + ']').removeClass('active');
-		var z = x-1;
 		for (i=0 ; i<allBoards.length ; i++) {
-			if (i!=z) {
-				allBoards[i].removeClass('active');
-			}
-		}
+			if (allBoards[i].item != x) {
+				allBoards[i].$element.removeClass('active');
+			};
+		};
 	};
 
 	function addActiveClassLi(x) {
-		$('.board-list').children('[data-li_item=' + x + ']').addClass('active');
+		//$('.board-list').children('[data-li_item=' + x + ']').addClass('active');
+		for (i=0 ; i<allBoardsLiElem.length ; i++) {
+			if (allBoardsLiElem[i].item == x) {
+				allBoardsLiElem[i].$element.addClass('active');
+			};
+		};
 	};
 
 	function addActiveClassBoard(x) {
-		$('.board-container').children('[data-item=' + x + ']').addClass('active');
+		for (i=0 ; i<allBoards.length ; i++) {
+			if (allBoards[i].item == x) {
+				allBoards[i].$element.addClass('active');
+			};
+		};
 	};
 
 	//creating new Board
