@@ -1,6 +1,7 @@
 $(function() {
 
-	var n = 0; //number of board
+	var n = 0, //number of board
+		allBoards = new Array();
 
 	function randomString() {
 		var chars = "0123456789abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ",
@@ -94,11 +95,11 @@ $(function() {
 	}
 
 	//object Board
-	function Board(name) {
+	function Board(name, item) {
 		var self = this;
 		this.id = randomString();
 		this.name = name;
-		this.item = n;
+		this.item = item;
 		this.$element =  createBoard();
 
 		function createBoard() {
@@ -118,6 +119,8 @@ $(function() {
 			return $board;
 		};
 
+		allBoards.push(this.$element);
+		console.log(allBoards);
 	};
 
 	Board.prototype = {
@@ -137,10 +140,10 @@ $(function() {
 	};
 
 	//object BoarListElement in board-navigation
-	function BoardListElem(name) {
+	function BoardListElem(name, item) {
 		var self = this;
 		this.name = name;
-		this.item = n;
+		this.item = item;
 		this.$element = createListItem();
 
 		function createListItem() {
@@ -167,23 +170,37 @@ $(function() {
 	};
 
 	BoardListElem.prototype.removeListElem = function() {
-		var x = this.$element.attr('data-li_item');
-		console.log(x);
+		var x = this.item;
+		//console.log(x);
 		this.$element.remove();
-		$('.board-container').children('[data-item=' + x + ']' ).remove();
+		allBoards[x-1].remove();
 		removeActiveClassLi(x);
 		removeActiveClassBoard(x);
 		$('.board-container').children(":first").addClass('active');
 		$('.board-list').children(":first").addClass('active');
+		console.log(allBoards);
 	};
 
+		//$('.board-container').children('[data-item=' + x + ']' ).remove();
+		/*$.each(allBoards, function(i, elem) {
+			//if (elem.item == x) {
+			//	$(this).remove();
+				console.log(elem["item"]);
+			//}
+		})*/
 	//class active switching
 	function removeActiveClassLi(x) {
 		$('.board-list').children('[data-li_item!=' + x + ']').removeClass('active');
 	};
 
 	function removeActiveClassBoard(x) {
-		$('.board-container').children('[data-item!=' + x + ']').removeClass('active');
+		//$('.board-container').children('[data-item!=' + x + ']').removeClass('active');
+		var z = x-1;
+		for (i=0 ; i<allBoards.length ; i++) {
+			if (i!=z) {
+				allBoards[i].removeClass('active');
+			}
+		}
 	};
 
 	function addActiveClassLi(x) {
@@ -195,11 +212,11 @@ $(function() {
 	};
 
 	//creating new Board
-	function createBoardItem(name) {
+	function createBoardItem(name, item) {
 		n++;
 		
-		var	board = new Board(name),
-			liElem = new BoardListElem(name);
+		var	board = new Board(name, n),
+			liElem = new BoardListElem(name, n);
 
 		$('.board-container').prepend(board.$element);
 		$('.board-list').prepend(liElem.$element);
@@ -208,6 +225,7 @@ $(function() {
 		removeActiveClassBoard(n);
 
 		return board;
+
 	}
 
 	$('.create-board').on('click', function() {
@@ -230,15 +248,15 @@ $(function() {
 	});
 
 	//initialize default board
-	var board = createBoardItem('Tablica Kanban');
+	var board1 = createBoardItem('Tablica Kanban');
 
 	var	toDoColumn = new Column('Do zrobienia'),
 		doingColumn = new Column('W trakcie'),
 		doneColumn = new Column('Skończone');
 
-	board.addColumn(toDoColumn);
-	board.addColumn(doingColumn);
-	board.addColumn(doneColumn);
+	board1.addColumn(toDoColumn);
+	board1.addColumn(doingColumn);
+	board1.addColumn(doneColumn);
 
 	var card1 = new Card('Nowe zadanie'),
 		card2 = new Card('Stworzyć tablicę Kanban');
@@ -254,5 +272,6 @@ $(function() {
 	$('.btn-delete').on('mouseout', function() {
 		$('.btn-delete-description').addClass('hidden');
 	});
+
 
 })
